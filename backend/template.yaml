@@ -1,0 +1,336 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: EventPilot - Serverless backend (API, Lambda, DynamoDB, Cognito, S3)
+
+Parameters:
+  AllowedOrigin:
+    Type: String
+    Default: "*"
+  BannersBucketName:
+    Type: String
+    Default: eventpilot-banners
+  TicketsBucketName:
+    Type: String
+    Default: eventpilot-tickets
+  EnableHostedUI:
+    Type: String
+    AllowedValues: ["true","false"]
+    Default: "true"
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 20
+    MemorySize: 512
+    Handler: index.handler
+    Environment:
+      Variables:
+        EVENTS_TABLE: !Ref EventsTable
+        REG_TABLE: !Ref RegistrationsTable
+        TICKETS_TABLE: !Ref TicketsTable
+        BANNERS_BUCKET: !Ref BannersBucket
+        TICKETS_BUCKET: !Ref TicketsBucket
+        REGION: !Ref AWS::Region
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+      AllowHeaders: "'*'"
+      AllowOrigin: !Sub "'${AllowedOrigin}'"
+
+Resources:
+
+  # --- DynamoDB Tables ---
+  EventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: eventId
+          AttributeType: S
+        - AttributeName: organizerId
+          AttributeType: S
+        - AttributeName: category
+          AttributeType: S
+      KeySchema:
+        - AttributeName: eventId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: OrganizerIndex
+          KeySchema:
+            - AttributeName: organizerId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: CategoryIndex
+          KeySchema:
+            - AttributeName: category
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  RegistrationsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: registrationId
+          AttributeType: S
+        - AttributeName: eventId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: registrationId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: EventIndex
+          KeySchema:
+            - AttributeName: eventId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: UserIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: CreatedAtIndex
+          KeySchema:
+            - AttributeName: createdAt
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  TicketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: ticketId
+          AttributeType: S
+        - AttributeName: eventId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: scanTs
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ticketId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: EventIndex
+          KeySchema:
+            - AttributeName: eventId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: UserIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: ScanIndex
+          KeySchema:
+            - AttributeName: scanTs
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+
+  # --- S3 Buckets ---
+  BannersBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BannersBucketName
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods: [GET, PUT, POST]
+            AllowedOrigins: ["*"]
+            AllowedHeaders: ["*"]
+
+  TicketsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref TicketsBucketName
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods: [GET]
+            AllowedOrigins: ["*"]
+            AllowedHeaders: ["*"]
+
+  # --- Cognito ---
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: EventPilotUserPool
+      AutoVerifiedAttributes: ["email"]
+      UsernameAttributes: ["email"]
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: eventpilot-client
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: ["code"]
+      AllowedOAuthScopes: ["openid", "email", "profile"]
+      CallbackURLs:
+        - "http://localhost:3000/api/auth/callback/cognito"
+      LogoutURLs:
+        - "http://localhost:3000"
+      SupportedIdentityProviders: ["COGNITO"]
+
+  UserPoolDomain:
+    Condition: UseHostedUI
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub "eventpilot-${AWS::AccountId}-${AWS::Region}"
+      UserPoolId: !Ref UserPool
+
+  OrganizerGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: organizer
+      UserPoolId: !Ref UserPool
+
+  AttendeeGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: attendee
+      UserPoolId: !Ref UserPool
+
+  # --- API ---
+  HttpApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+
+  # --- Lambdas (CRUD, presign, ticket gen, analytics) ---
+  EventsFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/events/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref EventsTable
+        - S3ReadPolicy:
+            BucketName: !Ref BannersBucket
+        - S3WritePolicy:
+            BucketName: !Ref BannersBucket
+      Events:
+        Any:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /events
+            Method: ANY
+        ById:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /events/{id}
+            Method: ANY
+
+  RegistrationsFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/registrations/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref RegistrationsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TicketsTable
+        - S3WritePolicy:
+            BucketName: !Ref TicketsBucket
+      Events:
+        Create:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /registrations
+            Method: POST
+        Query:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /registrations
+            Method: GET
+
+  TicketsFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/tickets/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TicketsTable
+        - S3ReadPolicy:
+            BucketName: !Ref TicketsBucket
+      Events:
+        GetSigned:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /tickets/{ticketId}
+            Method: GET
+        Scan:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /tickets/{ticketId}/scan
+            Method: POST
+
+  PresignFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/presign/
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref BannersBucket
+      Events:
+        Presign:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /presign/banner
+            Method: POST
+
+  AnalyticsFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/analytics/
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref RegistrationsTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref TicketsTable
+      Events:
+        GetAnalytics:
+          Type: Api
+          Properties:
+            RestApiId: !Ref HttpApi
+            Path: /analytics
+            Method: GET
+
+Conditions:
+  UseHostedUI: !Equals [!Ref EnableHostedUI, "true"]
+
+Outputs:
+  ApiBaseUrl:
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+  UserPoolId:
+    Value: !Ref UserPool
+  UserPoolClientId:
+    Value: !Ref UserPoolClient
+  UserPoolDomain:
+    Condition: UseHostedUI
+    Value: !If [UseHostedUI, !Sub "eventpilot-${AWS::AccountId}-${AWS::Region}.auth.${AWS::Region}.amazoncognito.com", ""]
+  CognitoIssuerUrl:
+    Value: !Sub "https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}"
+  BannersBucket:
+    Value: !Ref BannersBucket
+  TicketsBucket:
+    Value: !Ref TicketsBucket

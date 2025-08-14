@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f6f6f6;
+  --fg: #111;
+}
+
+html, body { background: var(--bg); color: var(--fg); }
+.brutal-card { border: 2px solid #000; box-shadow: 6px 6px 0 #000; border-radius: 0; }
+.brutal-btn { border: 2px solid #000; box-shadow: 4px 4px 0 #000; font-weight: 700; }
