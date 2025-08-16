@@ -1,0 +1,15 @@
+{
+  "name": "dynamodb-tools",
+  "version": "1.0.0",
+  "main": "add-gsi.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.868.0"
+  }
+}

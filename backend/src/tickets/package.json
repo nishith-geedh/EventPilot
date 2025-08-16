@@ -1,0 +1,11 @@
+{
+  "name": "eventpilot-lambdas",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "aws-sdk": "^2.1502.0",
+    "uuid": "^9.0.1",
+    "pdfkit": "^0.13.0",
+    "qrcode": "^1.5.3"
+  }
+}

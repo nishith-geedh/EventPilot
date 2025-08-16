@@ -1,0 +1,10 @@
+version = 0.1
+
+[default.deploy.parameters]
+stack_name = "eventpilot-stack"
+resolve_s3 = true
+s3_prefix = "eventpilot-stack"
+region = "ap-south-1"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "AllowedOrigin=\"*\" BannersBucketName=\"eventpilot-banners\" TicketsBucketName=\"eventpilot-tickets\" EnableHostedUI=\"false\""
+image_repositories = []

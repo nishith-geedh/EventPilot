@@ -1,0 +1,12 @@
+# Node artifacts
+node_modules/
+.next/
+.env.local
+.env.*
+.DS_Store
+npm-debug.log
+
+# AWS SAM build artifacts
+__pycache__/
+*.pyc
+.aws-sam/
