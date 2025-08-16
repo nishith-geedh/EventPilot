@@ -41,12 +41,14 @@ A full-stack, production-ready scaffold for organizers and attendees.
 
 ### Deploy Backend (AWS SAM)
 
-cd backend
-sam build
-sam deploy --guided
+
+`cd backend`
+`sam build`
+`sam deploy --guided`
 
 
 Pick a stack name (e.g., `eventpilot-stack`).  
+
 On first deploy, SAM will create:
 
 - Cognito User Pool + App Client (Hosted UI optional)
@@ -56,6 +58,7 @@ On first deploy, SAM will create:
 - Lambda functions for CRUD, analytics, presigned URLs, PDF generation
 
 > **After deployment, note the outputs:**
+
 > - `ApiBaseUrl`
 > - `UserPoolId`, `UserPoolClientId`, `UserPoolDomain`
 > - `BannersBucket`, `TicketsBucket`
@@ -67,9 +70,16 @@ On first deploy, SAM will create:
 
 Create `frontend/.env.local` based on `.env.example`, copying SAM output values.
 
-<pre lang="markdown"> <code>```bash cd frontend npm install npm run dev # for development ``` or ```bash npm run build && npm start # for production ```</code> </pre>
+`cd frontend` 
+`npm install` 
+`npm run dev` # for development 
+or
+`npm run build && npm start` # for production
+
+Use `& "C:\Program Files\nodejs\npm.cmd" run dev` if `npm` commands show an error.
 
 **Recommended Hosting:**  
+
 AWS Amplify — connect this repo, set environment variables, build & deploy.
 
 ---
@@ -118,7 +128,24 @@ When an attendee registers:
 
 ## Commands
 
-<pre lang="markdown"> <code>```bash # Backend (AWS SAM) cd backend sam build && sam deploy --guided ``` ```bash # For subsequent deployments sam deploy ``` ```bash # Frontend (Local) cd frontend npm install npm run dev ```</code> </pre>
+```bash
+# Backend (AWS SAM)
+cd backend
+sam build && sam deploy --guided
+```
+
+```bash
+# For subsequent deployments
+sam deploy
+```
+
+```bash
+# Frontend (Local)
+cd frontend
+npm install
+npm run dev
+```
+
 
 **Frontend (Amplify):**
 - Connect repo → Set env vars → Build & Deploy
@@ -129,7 +156,25 @@ When an attendee registers:
 
 ### Frontend (`frontend/.env.local`)
 
-<pre lang="markdown"> <code>```env NEXT_PUBLIC_API_BASE_URL=https://<api-id>.execute-api.<region>.amazonaws.com/Prod NEXTAUTH_URL=http://localhost:3000 NEXTAUTH_SECRET=replace-with-strong-random COGNITO_CLIENT_ID= COGNITO_CLIENT_SECRET= COGNITO_ISSUER=https://cognito-idp.<region>.amazonaws.com/ NEXT_PUBLIC_BANNERS_BUCKET= NEXT_PUBLIC_TICKETS_BUCKET= NEXT_PUBLIC_REGION= # Optional Stripe test keys STRIPE_PUBLIC_KEY=pk_test_xxx STRIPE_SECRET_KEY=sk_test_xxx ```</code> </pre>
+```env
+NEXT_PUBLIC_API_BASE_URL=https://<api-id>.execute-api.<region>.amazonaws.com/Prod
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=replace-with-strong-random
+
+COGNITO_CLIENT_ID=
+COGNITO_CLIENT_SECRET=
+COGNITO_ISSUER=https://cognito-idp.<region>.amazonaws.com/
+
+NEXT_PUBLIC_BANNERS_BUCKET=
+NEXT_PUBLIC_TICKETS_BUCKET=
+NEXT_PUBLIC_REGION=
+
+# Optional Stripe test keys
+STRIPE_PUBLIC_KEY=pk_test_xxx
+STRIPE_SECRET_KEY=sk_test_xxx
+```
+
+
 ### Backend (SAM Parameters / Env):
 
 - `BannersBucketName`
@@ -141,7 +186,35 @@ When an attendee registers:
 
 ## Architecture Diagram (ASCII)
 
-<pre lang="markdown"> <code>```text [Next.js + NextAuth] | (HTTPS) | [API Gateway] | +-------+--------+ | | [Lambda Functions] [Cognito User Pool + Groups] | v [DynamoDB] | +------------------+-------------------------+ | | | (S3 Upload banners) (Analytics Lambdas) (Download ticket via | | signed URL from Lambda) v v v [S3 Banners Bucket] scan/aggregate [S3 Tickets Bucket] DynamoDB and | return series [S3 Pre-Signed URLs] (bar / line / pie) | +--------------+--------------+ | | [Registration Lambda] [Other Lambdas...] generate PDF + QR code, store in S3 User Roles: ----------- - Organizer - Attendee ```</code> </pre>
+<pre>
+                  ┌───────────────┐
+   ┌─────────────►│  API Gateway  │◄─────────────┐
+   │ HTTPS        └─────┬─────────┘    REST API  │
+   │                    │                        │
+   │    Next.js         ▼                        │
+   │ + NextAuth   ┌───────────────┐    Lambda +  │
+   │ (Front-End)  │   Lambda FN   │◄──Analytics──┘
+   └──────────────┤  (CRUD, PDF,  │
+                  │ QR, Auth...)  │
+                  └─────────┬─────┘
+                            │
+                  ┌─────────▼─────────┐
+                  │    DynamoDB       │
+                  │ (events, users)   │
+                  └─────────┬─────────┘
+                            │
+      ┌─────────────────────▼─────────────────────┐
+      │          S3 Buckets                       │
+      │     ┌─► banners (uploads)                 │
+      │     └─► tickets (PDF/QR, signed URLs)     │
+      └───────────────────────────────────────────┘
+                            ▲
+                 Cognito User Pool + Groups
+                       ┌────────────┐
+                       │ organizer  │
+                       │ attendee   │
+                       └────────────┘
+</pre>
 
 ---
 
