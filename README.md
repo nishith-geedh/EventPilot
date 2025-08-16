@@ -1,11 +1,15 @@
 # EventPilot – AWS-Powered Event Management Platform
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![AWS SAM](https://img.shields.io/badge/AWS-SAM-orange?logo=amazonaws)](https://aws.amazon.com/serverless/sam/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![AWS SAM](https://img.shields.io/badge/AWS%20SAM-Serverless-orange?logo=amazonaws)](https://aws.amazon.com/serverless/sam/)
+[![Amazon DynamoDB](https://img.shields.io/badge/DynamoDB-NoSQL-blue?logo=amazon-dynamodb)](https://aws.amazon.com/dynamodb/)
+[![GitHub repo size](https://img.shields.io/github/repo-size/nishith-geedh/EventPilot?color=6aa64d)](https://github.com/nishith-geedh/EventPilot)
+[![GitHub contributors](https://img.shields.io/github/contributors/nishith-geedh/EventPilot?color=BC69FA)](https://github.com/nishith-geedh/EventPilot/graphs/contributors)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Build](https://img.shields.io/github/actions/workflow/status/nishith-geedh/EventPilot/deploy.yml?label=Build&logo=github)](https://github.com/nishith-geedh/EventPilot/actions)
-
+[![Last Commit](https://img.shields.io/github/last-commit/nishith-geedh/EventPilot?logo=github)](https://github.com/nishith-geedh/EventPilot/commits/main)
+[![Open Issues](https://img.shields.io/github/issues-raw/nishith-geedh/EventPilot?color=DF2A2A)](https://github.com/nishith-geedh/EventPilot/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr-raw/nishith-geedh/EventPilot?color=654DD9)](https://github.com/nishith-geedh/EventPilot/pulls)
 ---
 
 A full-stack, production-ready scaffold for organizers and attendees.
@@ -63,13 +67,7 @@ On first deploy, SAM will create:
 
 Create `frontend/.env.local` based on `.env.example`, copying SAM output values.
 
-cd frontend
-npm install
-npm run dev # for development
-
-or
-npm run build && npm start # for production
-
+<pre lang="markdown"> <code>```bash cd frontend npm install npm run dev # for development ``` or ```bash npm run build && npm start # for production ```</code> </pre>
 
 **Recommended Hosting:**  
 AWS Amplify — connect this repo, set environment variables, build & deploy.
@@ -120,21 +118,7 @@ When an attendee registers:
 
 ## Commands
 
-**Backend (AWS SAM):**
-
-
-cd backend
-sam build && sam deploy --guided
-
-For subsequent deployments:
-sam deploy
-
-
-**Frontend (Local):**
-
-cd frontend
-npm install
-npm run dev
+<pre lang="markdown"> <code>```bash # Backend (AWS SAM) cd backend sam build && sam deploy --guided ``` ```bash # For subsequent deployments sam deploy ``` ```bash # Frontend (Local) cd frontend npm install npm run dev ```</code> </pre>
 
 **Frontend (Amplify):**
 - Connect repo → Set env vars → Build & Deploy
@@ -145,22 +129,7 @@ npm run dev
 
 ### Frontend (`frontend/.env.local`)
 
-
-NEXT_PUBLIC_API_BASE_URL=https://<apigw-id>.execute-api.<region>.amazonaws.com/Prod
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=replace-with-strong-random
-COGNITO_CLIENT_ID=<UserPoolClientId>
-COGNITO_CLIENT_SECRET=<OptionalIfConfidential>
-COGNITO_ISSUER=https://cognito-idp.<region>.amazonaws.com/<UserPoolId>
-NEXT_PUBLIC_BANNERS_BUCKET=<bucket-name>
-NEXT_PUBLIC_TICKETS_BUCKET=<bucket-name>
-NEXT_PUBLIC_REGION=<region>
-
-Optional Stripe test keys
-STRIPE_PUBLIC_KEY=pk_test_xxx
-STRIPE_SECRET_KEY=sk_test_xxx
-
-
+<pre lang="markdown"> <code>```env NEXT_PUBLIC_API_BASE_URL=https://<api-id>.execute-api.<region>.amazonaws.com/Prod NEXTAUTH_URL=http://localhost:3000 NEXTAUTH_SECRET=replace-with-strong-random COGNITO_CLIENT_ID= COGNITO_CLIENT_SECRET= COGNITO_ISSUER=https://cognito-idp.<region>.amazonaws.com/ NEXT_PUBLIC_BANNERS_BUCKET= NEXT_PUBLIC_TICKETS_BUCKET= NEXT_PUBLIC_REGION= # Optional Stripe test keys STRIPE_PUBLIC_KEY=pk_test_xxx STRIPE_SECRET_KEY=sk_test_xxx ```</code> </pre>
 ### Backend (SAM Parameters / Env):
 
 - `BannersBucketName`
@@ -172,21 +141,7 @@ STRIPE_SECRET_KEY=sk_test_xxx
 
 ## Architecture Diagram (ASCII)
 
-[Next.js + NextAuth] --(HTTPS)--> [API Gateway] --> [Lambda Functions] --> [DynamoDB]
-| |
-|--(S3 Upload banners)+-------->+--> [S3 Banners Bucket]
-|--(Download ticket via signed URL)+-> [S3 Tickets Bucket]
-| |
-+-> [S3 Pre-Signed URLs] |
-[Cognito User Pool + Groups]
-
-organizer
-
-attendee
-
-[Analytics Lambdas] --> scan/aggregate DynamoDB --> return series (bar/line/pie)
-[Registration Lambda] --> generate PDF + QR (stored in S3)
-
+<pre lang="markdown"> <code>```text [Next.js + NextAuth] | (HTTPS) | [API Gateway] | +-------+--------+ | | [Lambda Functions] [Cognito User Pool + Groups] | v [DynamoDB] | +------------------+-------------------------+ | | | (S3 Upload banners) (Analytics Lambdas) (Download ticket via | | signed URL from Lambda) v v v [S3 Banners Bucket] scan/aggregate [S3 Tickets Bucket] DynamoDB and | return series [S3 Pre-Signed URLs] (bar / line / pie) | +--------------+--------------+ | | [Registration Lambda] [Other Lambdas...] generate PDF + QR code, store in S3 User Roles: ----------- - Organizer - Attendee ```</code> </pre>
 
 ---
 
