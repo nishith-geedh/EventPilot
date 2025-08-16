@@ -1,28 +1,33 @@
 # EventPilot – AWS-Powered Event Management Platform
+
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![AWS](https://img.shields.io/badge/AWS-SAM-orange?logo=amazonaws)](https://aws.amazon.com/serverless/sam/)
+[![AWS SAM](https://img.shields.io/badge/AWS-SAM-orange?logo=amazonaws)](https://aws.amazon.com/serverless/sam/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/nishith-geedh/EventPilot/deploy.yml?label=Build&logo=github)](https://github.com/nishith-geedh/EventPilot/actions)
 
-A full-stack, production-ready scaffold for organizers and attendees.  
-Stack: **Next.js 14 (App Router) + Tailwind + NextAuth (Cognito Provider)** on the frontend; **AWS Lambda + API Gateway + DynamoDB + S3 + Cognito** via **AWS SAM** on the backend.
+---
+
+A full-stack, production-ready scaffold for organizers and attendees.
+
+**Frontend:** Next.js 14 (App Router), TailwindCSS, NextAuth (Cognito Provider)  
+**Backend:** AWS Lambda, API Gateway, DynamoDB, S3, Cognito — orchestrated via AWS SAM
 
 ---
 
 ## Table of Contents
 
 - [Quick Start](#quick-start)
-- [Backend Deployment (AWS SAM)](#1-deploy-backend-aws-sam)
-- [Frontend Setup & Hosting](#2-configure-frontend)
-- [User Roles & Cognito Groups](#3-roles--users)
+- [Backend Deployment (AWS SAM)](#deploy-backend-aws-sam)
+- [Frontend Setup & Hosting](#configure-frontend)
+- [User Roles & Cognito Groups](#roles--users)
 - [Organizer Dashboard Features](#organizer-dashboard)
-- [Ticketing Flow](#5-ticketing)
+- [Ticketing Flow](#ticketing)
 - [Deployment Notes & Manual Steps](#deployment-notes--manual-steps)
 - [Commands Reference](#commands)
 - [Environment Variables](#environment-variables)
-- [Architecture Overview](#architecture-diagram-ascii)
-- [Cost & Scalability](#cost--scalability-rough)
+- [Architecture](#architecture-diagram-ascii)
+- [Cost & Scalability](#cost--scalability)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -30,22 +35,23 @@ Stack: **Next.js 14 (App Router) + Tailwind + NextAuth (Cognito Provider)** on t
 
 ## Quick Start
 
-### 1. Deploy Backend (AWS SAM)
+### Deploy Backend (AWS SAM)
 
 cd backend
 sam build
 sam deploy --guided
+
 
 Pick a stack name (e.g., `eventpilot-stack`).  
 On first deploy, SAM will create:
 
 - Cognito User Pool + App Client (Hosted UI optional)
 - DynamoDB tables: `Events`, `Registrations`, `Tickets`
-- S3 buckets for banners & tickets (with CORS)
-- API Gateway with routes
-- Lambda functions (CRUD, analytics, presign, ticket pdf generation)
+- S3 buckets for `banners` & `tickets` (CORS enabled)
+- API Gateway with all routes
+- Lambda functions for CRUD, analytics, presigned URLs, PDF generation
 
-> After deploy, note these outputs:
+> **After deployment, note the outputs:**
 > - `ApiBaseUrl`
 > - `UserPoolId`, `UserPoolClientId`, `UserPoolDomain`
 > - `BannersBucket`, `TicketsBucket`
@@ -53,32 +59,35 @@ On first deploy, SAM will create:
 
 ---
 
-### 2. Configure Frontend
+### Configure Frontend
 
-Create `frontend/.env.local` based on `.env.example`, filling with output values from your SAM deploy.
+Create `frontend/.env.local` based on `.env.example`, copying SAM output values.
 
 cd frontend
 npm install
-npm run dev # or: npm run build && npm run start
+npm run dev # for development
+
+or
+npm run build && npm start # for production
 
 
-**Recommended hosting:**  
-AWS Amplify – Connect this repo, set environment variables from `.env.example`, and deploy.
+**Recommended Hosting:**  
+AWS Amplify — connect this repo, set environment variables, build & deploy.
 
 ---
 
-### 3. Roles & Users
+## Roles & Users
 
-In the AWS Console → Cognito → User Pool:
+In AWS Console → Cognito → User Pool:
 
 - Create groups: `organizer`, `attendee`
-- Assign users to appropriate groups
+- Assign users appropriately
 
 ---
 
 ## Organizer Dashboard
 
-Log in as an organizer to access advanced analytics:
+Log in as an organizer to access analytics:
 
 - Registrants per event (bar chart)
 - Ticket scans over time (line chart)
@@ -88,50 +97,46 @@ Log in as an organizer to access advanced analytics:
 
 ---
 
-### 5. Ticketing
+## Ticketing
 
 When an attendee registers:
 
-- A Lambda generates a PDF with an embedded QR code
-- PDF is stored in S3 (`tickets` bucket), and a pre-signed download link is emailed to the attendee
+- Lambda generates a downloadable PDF ticket with embedded QR code
+- PDF stored in S3 (`tickets` bucket); attendee receives a pre-signed URL
 
 ---
 
 ## Deployment Notes & Manual Steps
 
 1. **Cognito Hosted UI (optional):**  
-   In User Pool App Client, set a domain (e.g., `eventpilot-<random>`) and callback URLs (e.g., `https://yourdomain/callback`).  
-   If using NextAuth, you can use custom flows without Hosted UI.
-
+   Set a custom domain (e.g., `eventpilot-xyz`) and callback URLs matching your frontend (`https://yourdomain/callback`). Or, use custom flows via NextAuth.
 2. **CORS:**  
-   Buckets are created with permissive CORS for dev. Tighten for production.
-
+   Buckets start with permissive dev CORS; restrict for production.
 3. **Stripe (optional):**  
-   Frontend includes a mock payment toggle. To switch to real Stripe in test mode, add Stripe keys to `.env.local` and extend `createRegistration` Lambda to call Stripe (skeleton included).
+   Add Stripe test/live keys in `.env.local`.  
+   Extend the `createRegistration` Lambda for payment handling.
 
 ---
 
 ## Commands
 
-**Backend**
+**Backend (AWS SAM):**
 
 
 cd backend
 sam build && sam deploy --guided
 
-Later updates:
+For subsequent deployments:
 sam deploy
 
 
-**Frontend (local)**
+**Frontend (Local):**
 
 cd frontend
 npm install
 npm run dev
 
-
-**Frontend (Amplify)**
-
+**Frontend (Amplify):**
 - Connect repo → Set env vars → Build & Deploy
 
 ---
@@ -139,7 +144,6 @@ npm run dev
 ## Environment Variables
 
 ### Frontend (`frontend/.env.local`)
-
 
 
 NEXT_PUBLIC_API_BASE_URL=https://<apigw-id>.execute-api.<region>.amazonaws.com/Prod
@@ -153,11 +157,11 @@ NEXT_PUBLIC_TICKETS_BUCKET=<bucket-name>
 NEXT_PUBLIC_REGION=<region>
 
 Optional Stripe test keys
-#STRIPE_PUBLIC_KEY=pk_test_xxx
-#STRIPE_SECRET_KEY=sk_test_xxx
+STRIPE_PUBLIC_KEY=pk_test_xxx
+STRIPE_SECRET_KEY=sk_test_xxx
 
 
-**Backend (SAM Parameters / Env):**
+### Backend (SAM Parameters / Env):
 
 - `BannersBucketName`
 - `TicketsBucketName`
@@ -169,10 +173,11 @@ Optional Stripe test keys
 ## Architecture Diagram (ASCII)
 
 [Next.js + NextAuth] --(HTTPS)--> [API Gateway] --> [Lambda Functions] --> [DynamoDB]
-| -> [S3 Pre-Signed URLs]
-|--(S3 Upload banners)----------------------> [S3 Banners Bucket]
-|--(Download ticket via signed URL)---------> [S3 Tickets Bucket]
-
+| |
+|--(S3 Upload banners)+-------->+--> [S3 Banners Bucket]
+|--(Download ticket via signed URL)+-> [S3 Tickets Bucket]
+| |
++-> [S3 Pre-Signed URLs] |
 [Cognito User Pool + Groups]
 
 organizer
@@ -185,32 +190,34 @@ attendee
 
 ---
 
-## Cost & Scalability (Rough Overview)
+## Cost & Scalability
 
-| Service     | Purpose                  | Cost Model                | Scalability           |
-|-------------|--------------------------|---------------------------|-----------------------|
-| DynamoDB    | Event/registration DB    | On-demand, per-request    | Scales automatically  |
-| Lambda      | Business logic           | Pay-per-invocation        | Scales to zero        |
-| API Gateway | REST API                 | Pay-per-call              | Scales automatically  |
-| S3          | Storage (banners/tickets)| Pay-per-GB + bandwidth    | Durable, low-cost     |
-| Cognito     | Auth/groups              | Per MAU                   | Handles bursts        |
-| Amplify     | Frontend hosting & CDN   | Static + build usage      | Global CDN            |
-| Stripe      | Payment processing       | Pay-as-you-go             | Optional integration  |
+| Service     | Purpose                   | Pricing                | Scalability         |
+|-------------|---------------------------|------------------------|---------------------|
+| DynamoDB    | Event/registration store  | On-demand, per-request | Auto-scaled         |
+| Lambda      | API/business logic        | Per-invocation         | Scales-to-zero      |
+| API Gateway | RESTful API endpoints     | Per-call               | Auto-scaled         |
+| S3          | File storage (banners/tickets)| Per-GB + bandwidth  | Durable, low-cost   |
+| Cognito     | Auth/groups               | Per MAU                | Handles bursts      |
+| Amplify     | Frontend static hosting   | Static + build usage   | Global CDN          |
+| Stripe      | Payments (optional)       | Pay-as-you-go          | Secure, scalable    |
+
+_Designed for serverless, scale-to-zero efficiency and clean modular separation._
 
 ---
 
 ## Contributing
 
-Pull requests, issues, and suggestions are welcome.  
-Open an Issue or PR for custom features, bug reports, or improvements.
+Contributions and suggestions are always welcome.  
+Open issues or pull requests for features, fixes, or documentation.
 
 ---
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE).
 
 ---
 
-**EventPilot** delivers a modern, scalable foundation for AWS-native, production-grade event platforms –  
-with battle-tested patterns for cost, performance, and a delightful user experience.
+**EventPilot** delivers a modern, scalable foundation for AWS-native, production-grade event platforms —  
+with robust patterns for cost, security, performance, and developer experience.
