@@ -1,4 +1,9 @@
 # EventPilot – AWS-Powered Event Management Platform
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
+[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![AWS](https://img.shields.io/badge/AWS-SAM-orange?logo=amazonaws)](https://aws.amazon.com/serverless/sam/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Build](https://img.shields.io/github/actions/workflow/status/nishith-geedh/EventPilot/deploy.yml?label=Build&logo=github)](https://github.com/nishith-geedh/EventPilot/actions)
 
 A full-stack, production-ready scaffold for organizers and attendees.  
 Stack: **Next.js 14 (App Router) + Tailwind + NextAuth (Cognito Provider)** on the frontend; **AWS Lambda + API Gateway + DynamoDB + S3 + Cognito** via **AWS SAM** on the backend.
