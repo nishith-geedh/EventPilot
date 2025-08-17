@@ -31,6 +31,8 @@ A full-stack, production-ready scaffold for organizers and attendees.
 - [Commands Reference](#commands)
 - [Environment Variables](#environment-variables)
 - [Architecture](#architecture-diagram-ascii)
+- [Architecture](#architecture-diagram-ascii)
+- [Architecture Diagrams (Visual)](#architecture-diagrams-visual)
 - [Cost & Scalability](#cost--scalability)
 - [Screenshots](#screenshots)
 - [Contributing](#contributing)
@@ -216,6 +218,18 @@ STRIPE_SECRET_KEY=sk_test_xxx
                        │ attendee   │
                        └────────────┘
 </pre>
+
+## Architecture Diagrams (Visual)
+
+### 🧱 Overall System Architecture
+
+![EventPilot System Architecture](./demo/eventpilot%20-%20architecture%20diagram.svg)
+
+### 🎟️ Ticketing Workflow
+
+![EventPilot Ticketing Workflow](./demo/eventpilot%20-%20ticketing%20workflow.svg)
+
+
 
 ---
 

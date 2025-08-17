@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="673pt" height="922pt" viewBox="0.00 0.00 672.88 921.80">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 917.8)">
+<title>TicketingWorkflowModern</title>
+<polygon fill="#ffffff" stroke="none" points="-4,4 -4,-917.8 668.88,-917.8 668.88,4 -4,4"/>
+<text text-anchor="middle" x="332.44" y="-899" font-family="Helvetica Neue" font-size="12.00">🎟️ EventPilot – Modern Ticketing Workflow (Vertical)</text>
+<g id="clust1" class="cluster">
+<title>cluster_user</title>
+<path fill="#f0f9ff" stroke="#e0f2fe" d="M20,-413.2C20,-413.2 487,-413.2 487,-413.2 493,-413.2 499,-419.2 499,-425.2 499,-425.2 499,-871.4 499,-871.4 499,-877.4 493,-883.4 487,-883.4 487,-883.4 20,-883.4 20,-883.4 14,-883.4 8,-877.4 8,-871.4 8,-871.4 8,-425.2 8,-425.2 8,-419.2 14,-413.2 20,-413.2"/>
+<text text-anchor="middle" x="253.5" y="-868.6" font-family="Helvetica Neue" font-size="12.00" fill="#0369a1">👤 Attendee Journey</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_backend</title>
+<path fill="#f0fdf4" stroke="#dcfce7" d="M20,-8C20,-8 487,-8 487,-8 493,-8 499,-14 499,-20 499,-20 499,-371.2 499,-371.2 499,-377.2 493,-383.2 487,-383.2 487,-383.2 20,-383.2 20,-383.2 14,-383.2 8,-377.2 8,-371.2 8,-371.2 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+<text text-anchor="middle" x="253.5" y="-368.4" font-family="Helvetica Neue" font-size="12.00" fill="#065f46">⚙️ AWS Backend Workflow</text>
+</g>
+<!-- Homepage -->
+<g id="node1" class="node">
+<title>Homepage</title>
+<path fill="#dbeafe" stroke="#60a5fa" d="M220,-853C220,-853 28,-853 28,-853 22,-853 16,-847 16,-841 16,-841 16,-829 16,-829 16,-823 22,-817 28,-817 28,-817 220,-817 220,-817 226,-817 232,-823 232,-829 232,-829 232,-841 232,-841 232,-847 226,-853 220,-853"/>
+<text text-anchor="middle" x="124" y="-838.3" font-family="Helvetica Neue" font-size="11.00">🏠 Homepage</text>
+<text text-anchor="middle" x="124" y="-825.1" font-family="Helvetica Neue" font-size="11.00">(Navbar: Events, Login)</text>
+</g>
+<!-- CognitoLogin -->
+<g id="node2" class="node">
+<title>CognitoLogin</title>
+<path fill="#bfdbfe" stroke="#3b82f6" d="M233,-758C233,-758 41,-758 41,-758 35,-758 29,-752 29,-746 29,-746 29,-734 29,-734 29,-728 35,-722 41,-722 41,-722 233,-722 233,-722 239,-722 245,-728 245,-734 245,-734 245,-746 245,-746 245,-752 239,-758 233,-758"/>
+<text text-anchor="middle" x="137" y="-743.3" font-family="Helvetica Neue" font-size="11.00">🔑 Cognito Login/Register</text>
+<text text-anchor="middle" x="137" y="-730.1" font-family="Helvetica Neue" font-size="11.00">(Hosted UI)</text>
+</g>
+<!-- Homepage&#45;&gt;CognitoLogin -->
+<g id="edge1" class="edge">
+<title>Homepage-&gt;CognitoLogin</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" d="M130.5,-816.68C130.5,-816.68 130.5,-771.29 130.5,-771.29"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="134,-771.29 130.5,-761.29 127,-771.29 134,-771.29"/>
+</g>
+<!-- EmailVerification -->
+<g id="node3" class="node">
+<title>EmailVerification</title>
+<path fill="#bfdbfe" stroke="#3b82f6" d="M220,-647.2C220,-647.2 28,-647.2 28,-647.2 22,-647.2 16,-641.2 16,-635.2 16,-635.2 16,-623.2 16,-623.2 16,-617.2 22,-611.2 28,-611.2 28,-611.2 220,-611.2 220,-611.2 226,-611.2 232,-617.2 232,-623.2 232,-623.2 232,-635.2 232,-635.2 232,-641.2 226,-647.2 220,-647.2"/>
+<text text-anchor="middle" x="124" y="-632.5" font-family="Helvetica Neue" font-size="11.00">📧 Verification Code</text>
+<text text-anchor="middle" x="124" y="-619.3" font-family="Helvetica Neue" font-size="11.00">(no-reply@verification.com)</text>
+</g>
+<!-- CognitoLogin&#45;&gt;EmailVerification -->
+<g id="edge2" class="edge">
+<title>CognitoLogin-&gt;EmailVerification</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,2" d="M164.33,-721.7C164.33,-721.7 164.33,-660.55 164.33,-660.55"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="167.83,-660.55 164.33,-650.55 160.83,-660.55 167.83,-660.55"/>
+</g>
+<!-- EventList -->
+<g id="node4" class="node">
+<title>EventList</title>
+<path fill="#dbeafe" stroke="#60a5fa" d="M479,-647.2C479,-647.2 287,-647.2 287,-647.2 281,-647.2 275,-641.2 275,-635.2 275,-635.2 275,-623.2 275,-623.2 275,-617.2 281,-611.2 287,-611.2 287,-611.2 479,-611.2 479,-611.2 485,-611.2 491,-617.2 491,-623.2 491,-623.2 491,-635.2 491,-635.2 491,-641.2 485,-647.2 479,-647.2"/>
+<text text-anchor="middle" x="383" y="-632.5" font-family="Helvetica Neue" font-size="11.00">📅 Events Page</text>
+<text text-anchor="middle" x="383" y="-619.3" font-family="Helvetica Neue" font-size="11.00">(Ongoing/Upcoming)</text>
+</g>
+<!-- CognitoLogin&#45;&gt;EventList -->
+<g id="edge4" class="edge">
+<title>CognitoLogin-&gt;EventList</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" d="M238.5,-721.7C238.5,-690.23 238.5,-629.2 238.5,-629.2 238.5,-629.2 261.56,-629.2 261.56,-629.2"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="261.56,-632.7 271.56,-629.2 261.56,-625.7 261.56,-632.7"/>
+</g>
+<!-- EmailVerification&#45;&gt;CognitoLogin -->
+<g id="edge3" class="edge">
+<title>EmailVerification-&gt;CognitoLogin</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,2" d="M96.67,-647.5C96.67,-647.5 96.67,-708.65 96.67,-708.65"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="93.17,-708.65 96.67,-718.65 100.17,-708.65 93.17,-708.65"/>
+<text text-anchor="middle" x="179.32" y="-680.4" font-family="Times,serif" font-size="14.00">✅ Verified</text>
+</g>
+<!-- EventDetail -->
+<g id="node5" class="node">
+<title>EventDetail</title>
+<path fill="#dbeafe" stroke="#60a5fa" d="M469,-552.2C469,-552.2 277,-552.2 277,-552.2 271,-552.2 265,-546.2 265,-540.2 265,-540.2 265,-528.2 265,-528.2 265,-522.2 271,-516.2 277,-516.2 277,-516.2 469,-516.2 469,-516.2 475,-516.2 481,-522.2 481,-528.2 481,-528.2 481,-540.2 481,-540.2 481,-546.2 475,-552.2 469,-552.2"/>
+<text text-anchor="middle" x="373" y="-537.5" font-family="Helvetica Neue" font-size="11.00">ℹ️ Event Detail Page</text>
+<text text-anchor="middle" x="373" y="-524.3" font-family="Helvetica Neue" font-size="11.00">(Name, Date, Banner)</text>
+</g>
+<!-- EventList&#45;&gt;EventDetail -->
+<g id="edge5" class="edge">
+<title>EventList-&gt;EventDetail</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" d="M378,-610.88C378,-610.88 378,-565.49 378,-565.49"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="381.5,-565.49 378,-555.49 374.5,-565.49 381.5,-565.49"/>
+</g>
+<!-- RegisterForm -->
+<g id="node6" class="node">
+<title>RegisterForm</title>
+<path fill="#93c5fd" stroke="#2563eb" d="M458,-457.2C458,-457.2 266,-457.2 266,-457.2 260,-457.2 254,-451.2 254,-445.2 254,-445.2 254,-433.2 254,-433.2 254,-427.2 260,-421.2 266,-421.2 266,-421.2 458,-421.2 458,-421.2 464,-421.2 470,-427.2 470,-433.2 470,-433.2 470,-445.2 470,-445.2 470,-451.2 464,-457.2 458,-457.2"/>
+<text text-anchor="middle" x="362" y="-442.5" font-family="Helvetica Neue" font-size="11.00">📝 Register Form</text>
+<text text-anchor="middle" x="362" y="-429.3" font-family="Helvetica Neue" font-size="11.00">(Name, Email)</text>
+</g>
+<!-- EventDetail&#45;&gt;RegisterForm -->
+<g id="edge6" class="edge">
+<title>EventDetail-&gt;RegisterForm</title>
+<path fill="none" stroke="#3b82f6" stroke-width="2" d="M367.5,-515.88C367.5,-515.88 367.5,-470.49 367.5,-470.49"/>
+<polygon fill="#3b82f6" stroke="#3b82f6" stroke-width="2" points="371,-470.49 367.5,-460.49 364,-470.49 371,-470.49"/>
+</g>
+<!-- APIGateway -->
+<g id="node9" class="node">
+<title>APIGateway</title>
+<path fill="#86efac" stroke="#15803d" d="M458,-352.8C458,-352.8 266,-352.8 266,-352.8 260,-352.8 254,-346.8 254,-340.8 254,-340.8 254,-328.8 254,-328.8 254,-322.8 260,-316.8 266,-316.8 266,-316.8 458,-316.8 458,-316.8 464,-316.8 470,-322.8 470,-328.8 470,-328.8 470,-340.8 470,-340.8 470,-346.8 464,-352.8 458,-352.8"/>
+<text text-anchor="middle" x="362" y="-338.1" font-family="Helvetica Neue" font-size="11.00">🌐 API Gateway</text>
+<text text-anchor="middle" x="362" y="-324.9" font-family="Helvetica Neue" font-size="11.00">(Auth via JWT)</text>
+</g>
+<!-- RegisterForm&#45;&gt;APIGateway -->
+<g id="edge7" class="edge">
+<title>RegisterForm-&gt;APIGateway</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M362,-421.01C362,-421.01 362,-366.15 362,-366.15"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="365.5,-366.15 362,-356.15 358.5,-366.15 365.5,-366.15"/>
+</g>
+<!-- DownloadPDF -->
+<g id="node7" class="node">
+<title>DownloadPDF</title>
+<path fill="#60a5fa" stroke="#1d4ed8" d="M479,-853C479,-853 287,-853 287,-853 281,-853 275,-847 275,-841 275,-841 275,-829 275,-829 275,-823 281,-817 287,-817 287,-817 479,-817 479,-817 485,-817 491,-823 491,-829 491,-829 491,-841 491,-841 491,-847 485,-853 479,-853"/>
+<text text-anchor="middle" x="383" y="-838.3" font-family="Helvetica Neue" font-size="11.00" fill="white">⬇️ Download Ticket PDF</text>
+<text text-anchor="middle" x="383" y="-825.1" font-family="Helvetica Neue" font-size="11.00" fill="white">(Pre-signed URL)</text>
+</g>
+<!-- S3PDF -->
+<g id="node13" class="node">
+<title>S3PDF</title>
+<path fill="#86efac" stroke="#15803d" d="M479,-52C479,-52 287,-52 287,-52 281,-52 275,-46 275,-40 275,-40 275,-28 275,-28 275,-22 281,-16 287,-16 287,-16 479,-16 479,-16 485,-16 491,-22 491,-28 491,-28 491,-40 491,-40 491,-46 485,-52 479,-52"/>
+<text text-anchor="middle" x="383" y="-37.3" font-family="Helvetica Neue" font-size="11.00">📂 Amazon S3</text>
+<text text-anchor="middle" x="383" y="-24.1" font-family="Helvetica Neue" font-size="11.00">(ticket-pdfs, Pre-signed)</text>
+</g>
+<!-- DownloadPDF&#45;&gt;S3PDF -->
+<g id="edge14" class="edge">
+<title>DownloadPDF-&gt;S3PDF</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M491.48,-835C502.08,-835 509,-835 509,-835 509,-835 509,-34 509,-34 509,-34 504.51,-34 504.51,-34"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="504.51,-30.5 494.51,-34 504.51,-37.5 504.51,-30.5"/>
+<text text-anchor="middle" x="610.44" y="-435" font-family="Times,serif" font-size="14.00">📎 Pre-signed URL</text>
+</g>
+<!-- Cognito -->
+<g id="node8" class="node">
+<title>Cognito</title>
+<path fill="#bbf7d0" stroke="#16a34a" d="M220,-257.8C220,-257.8 28,-257.8 28,-257.8 22,-257.8 16,-251.8 16,-245.8 16,-245.8 16,-233.8 16,-233.8 16,-227.8 22,-221.8 28,-221.8 28,-221.8 220,-221.8 220,-221.8 226,-221.8 232,-227.8 232,-233.8 232,-233.8 232,-245.8 232,-245.8 232,-251.8 226,-257.8 220,-257.8"/>
+<text text-anchor="middle" x="124" y="-243.1" font-family="Helvetica Neue" font-size="11.00">🔐 Amazon Cognito</text>
+<text text-anchor="middle" x="124" y="-229.9" font-family="Helvetica Neue" font-size="11.00">(User Pool)</text>
+</g>
+<!-- APIGateway&#45;&gt;Cognito -->
+<g id="edge8" class="edge">
+<title>APIGateway-&gt;Cognito</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M261,-316.36C261,-290.29 261,-245.8 261,-245.8 261,-245.8 245.31,-245.8 245.31,-245.8"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="245.31,-242.3 235.31,-245.8 245.31,-249.3 245.31,-242.3"/>
+</g>
+<!-- LambdaAPI -->
+<g id="node10" class="node">
+<title>LambdaAPI</title>
+<path fill="#4ade80" stroke="#15803d" d="M479,-257.8C479,-257.8 287,-257.8 287,-257.8 281,-257.8 275,-251.8 275,-245.8 275,-245.8 275,-233.8 275,-233.8 275,-227.8 281,-221.8 287,-221.8 287,-221.8 479,-221.8 479,-221.8 485,-221.8 491,-227.8 491,-233.8 491,-233.8 491,-245.8 491,-245.8 491,-251.8 485,-257.8 479,-257.8"/>
+<text text-anchor="middle" x="383" y="-243.1" font-family="Helvetica Neue" font-size="11.00">λ Lambda: App API</text>
+<text text-anchor="middle" x="383" y="-229.9" font-family="Helvetica Neue" font-size="11.00">(events, registrations)</text>
+</g>
+<!-- APIGateway&#45;&gt;LambdaAPI -->
+<g id="edge9" class="edge">
+<title>APIGateway-&gt;LambdaAPI</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M372.5,-316.48C372.5,-316.48 372.5,-271.09 372.5,-271.09"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="376,-271.09 372.5,-261.09 369,-271.09 376,-271.09"/>
+</g>
+<!-- DynamoDB -->
+<g id="node11" class="node">
+<title>DynamoDB</title>
+<path fill="#bbf7d0" stroke="#16a34a" d="M220,-52C220,-52 28,-52 28,-52 22,-52 16,-46 16,-40 16,-40 16,-28 16,-28 16,-22 22,-16 28,-16 28,-16 220,-16 220,-16 226,-16 232,-22 232,-28 232,-28 232,-40 232,-40 232,-46 226,-52 220,-52"/>
+<text text-anchor="middle" x="124" y="-37.3" font-family="Helvetica Neue" font-size="11.00">🗄️ DynamoDB</text>
+<text text-anchor="middle" x="124" y="-24.1" font-family="Helvetica Neue" font-size="11.00">(RegistrationsTable)</text>
+</g>
+<!-- LambdaAPI&#45;&gt;DynamoDB -->
+<g id="edge10" class="edge">
+<title>LambdaAPI-&gt;DynamoDB</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M274.51,-233.8C270.4,-233.8 268,-233.8 268,-233.8 268,-233.8 268,-34 268,-34 268,-34 245.43,-34 245.43,-34"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="245.43,-30.5 235.43,-34 245.43,-37.5 245.43,-30.5"/>
+</g>
+<!-- TicketLambda -->
+<g id="node12" class="node">
+<title>TicketLambda</title>
+<path fill="#4ade80" stroke="#15803d" d="M479,-162.8C479,-162.8 287,-162.8 287,-162.8 281,-162.8 275,-156.8 275,-150.8 275,-150.8 275,-138.8 275,-138.8 275,-132.8 281,-126.8 287,-126.8 287,-126.8 479,-126.8 479,-126.8 485,-126.8 491,-132.8 491,-138.8 491,-138.8 491,-150.8 491,-150.8 491,-156.8 485,-162.8 479,-162.8"/>
+<text text-anchor="middle" x="383" y="-148.1" font-family="Helvetica Neue" font-size="11.00">λ Lambda: TicketGenerator</text>
+<text text-anchor="middle" x="383" y="-134.9" font-family="Helvetica Neue" font-size="11.00">(PDF + QR)</text>
+</g>
+<!-- LambdaAPI&#45;&gt;TicketLambda -->
+<g id="edge11" class="edge">
+<title>LambdaAPI-&gt;TicketLambda</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M383,-221.48C383,-221.48 383,-176.09 383,-176.09"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="386.5,-176.09 383,-166.09 379.5,-176.09 386.5,-176.09"/>
+</g>
+<!-- TicketLambda&#45;&gt;DynamoDB -->
+<g id="edge13" class="edge">
+<title>TicketLambda-&gt;DynamoDB</title>
+<path fill="none" stroke="#16a34a" stroke-dasharray="5,2" d="M274.66,-144.8C203.69,-144.8 124,-144.8 124,-144.8 124,-144.8 124,-63.81 124,-63.81"/>
+<polygon fill="#16a34a" stroke="#16a34a" points="127.5,-63.81 124,-53.81 120.5,-63.81 127.5,-63.81"/>
+<text text-anchor="middle" x="304.79" y="-85.2" font-family="Times,serif" font-size="14.00">update ticketId</text>
+</g>
+<!-- TicketLambda&#45;&gt;S3PDF -->
+<g id="edge12" class="edge">
+<title>TicketLambda-&gt;S3PDF</title>
+<path fill="none" stroke="#16a34a" stroke-width="2" d="M383,-126.5C383,-126.5 383,-65.35 383,-65.35"/>
+<polygon fill="#16a34a" stroke="#16a34a" stroke-width="2" points="386.5,-65.35 383,-55.35 379.5,-65.35 386.5,-65.35"/>
+</g>
+</g>
+</svg>
