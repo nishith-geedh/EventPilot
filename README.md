@@ -31,7 +31,7 @@ A full-stack, production-ready scaffold for organizers and attendees.
 - [Commands Reference](#commands)
 - [Environment Variables](#environment-variables)
 - [Architecture Diagram (ASCII)](#architecture-diagram-ascii)
-- [Architecture Diagrams (Visual)](#architecture-diagrams-visual)
+- [Architecture Diagram (Visual)](#architecture-diagram-visual)
 - [Cost & Scalability](#cost--scalability)
 - [Screenshots](#screenshots)
 - [Contributing](#contributing)
@@ -107,12 +107,14 @@ Log in as an organizer to access analytics:
 
 ---
 
-## Ticketing
+## Ticketing Workflow
 
 When an attendee registers:
 
 - Lambda generates a downloadable PDF ticket with embedded QR code
 - PDF stored in S3 (`tickets` bucket); attendee receives a pre-signed URL
+
+![EventPilot Ticketing Workflow](./demo/eventpilot%20-%20ticketing%20workflow.svg)
 
 ---
 
@@ -218,15 +220,11 @@ STRIPE_SECRET_KEY=sk_test_xxx
                        └────────────┘
 </pre>
 
-## Architecture Diagrams (Visual)
+## Architecture Diagram (Visual)
 
 ### 🧱 Overall System Architecture
 
 ![EventPilot System Architecture](./demo/eventpilot%20-%20architecture%20diagram.svg)
-
-### 🎟️ Ticketing Workflow
-
-![EventPilot Ticketing Workflow](./demo/eventpilot%20-%20ticketing%20workflow.svg)
 
 
 
