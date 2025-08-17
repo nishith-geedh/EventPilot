@@ -44,8 +44,12 @@ A full-stack, production-ready scaffold for organizers and attendees.
 ### Deploy Backend (AWS SAM)
 
 
-<pre> ```bash cd backend sam build sam deploy --guided ``` </pre>
-
+```bash
+# Backend (AWS SAM)
+cd backend
+sam build 
+sam deploy --guided
+```
 
 Pick a stack name (e.g., `eventpilot-stack`).  
 
@@ -70,7 +74,14 @@ On first deploy, SAM will create:
 
 Create `frontend/.env.local` 
 
-<pre> ```bash cd frontend npm install npm run dev # for development # or npm run build npm start # for production ``` </pre>
+```bash
+cd frontend
+npm install
+npm run dev          # for development
+# or
+npm run build
+npm start            # for production
+```
 
 Use `& "C:\Program Files\nodejs\npm.cmd" run dev` if `npm` commands show an error.
 
