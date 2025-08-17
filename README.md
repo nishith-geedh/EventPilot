@@ -32,6 +32,7 @@ A full-stack, production-ready scaffold for organizers and attendees.
 - [Environment Variables](#environment-variables)
 - [Architecture](#architecture-diagram-ascii)
 - [Cost & Scalability](#cost--scalability)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
