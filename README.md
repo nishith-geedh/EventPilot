@@ -26,7 +26,7 @@ A full-stack, production-ready scaffold for organizers and attendees.
 - [Frontend Setup & Hosting](#configure-frontend)
 - [User Roles & Cognito Groups](#roles--users)
 - [Organizer Dashboard Features](#organizer-dashboard)
-- [Ticketing Flow](#ticketing)
+- [Ticketing Flow](#ticketing-workflow)
 - [Deployment Notes & Manual Steps](#deployment-notes--manual-steps)
 - [Commands Reference](#commands)
 - [Environment Variables](#environment-variables)
