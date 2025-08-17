@@ -44,9 +44,7 @@ A full-stack, production-ready scaffold for organizers and attendees.
 ### Deploy Backend (AWS SAM)
 
 
-`cd backend`
-`sam build`
-`sam deploy --guided`
+<pre> ```bash cd backend sam build sam deploy --guided ``` </pre>
 
 
 Pick a stack name (e.g., `eventpilot-stack`).  
@@ -70,13 +68,9 @@ On first deploy, SAM will create:
 
 ### Configure Frontend
 
-Create `frontend/.env.local` based on `.env.example`, copying SAM output values.
+Create `frontend/.env.local` 
 
-`cd frontend` 
-`npm install` 
-`npm run dev` # for development 
-or
-`npm run build && npm start` # for production
+<pre> ```bash cd frontend npm install npm run dev # for development # or npm run build npm start # for production ``` </pre>
 
 Use `& "C:\Program Files\nodejs\npm.cmd" run dev` if `npm` commands show an error.
 
@@ -99,11 +93,17 @@ In AWS Console → Cognito → User Pool:
 
 Log in as an organizer to access analytics:
 
-- Registrants per event (bar chart)
-- Ticket scans over time (line chart)
+- Total registrations  
+- Estimated visits  
+- Conversion rate (visits vs registrations)  
+- Active attendees (real-time)  
+- Registrants per event (bar chart)  
+- Event activity leaderboard (bar chart)  
+- Visitor-to-engagement funnel (bar chart)  
+- Engagement drop-off analysis (bar chart)  
 - Registrations by category (pie chart)
-- Conversion metrics (visits vs registrations)
-- Real-time active attendees (stub endpoint)
+
+> These insights help organizers track performance, optimize event promotion, and improve attendee engagement.
 
 ---
 
