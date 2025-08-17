@@ -233,6 +233,86 @@ STRIPE_SECRET_KEY=sk_test_xxx
 _Designed for serverless, scale-to-zero efficiency and clean modular separation._
 
 ---
+## Screenshots
+
+---
+
+### 🏠 Homepage
+
+![Homepage](./demo/homepage.png)  
+*Landing page — shared between Organizer and Attendee roles.*
+
+---
+
+### 👥 Attendee Experience
+
+#### 📅 View Events
+
+![Events Page](./demo/attendee%201.png)  
+*Ongoing and upcoming events with banners, date, time, and event details.*
+
+#### 🚫 Access Denied
+
+![Access Denied](./demo/attendee%202.png)  
+*Attendee trying to access the Organizer Dashboard receives an access denied message prompting login.*
+
+#### 🔐 Login with Cognito Prompt
+
+![Login Prompt](./demo/attendee%203.png)  
+*Login screen prompting user to authenticate using Cognito.*
+
+#### 🔐 Cognito Hosted UI
+
+![Cognito UI](./demo/attendee%204.png)  
+*Cognito-hosted login page for secure sign-in.*
+
+#### 📝 Register for an Event
+
+![Register for Event](./demo/attendee%205.png)  
+*Attendee registers for a specific event by entering name and email, then downloads a ticket.*
+
+#### 🎫 Ticket PDF
+
+![Ticket PDF](./demo/attendee%206.png)  
+*Generated ticket PDF showing user name, email, event, ticket ID, and QR code.*
+
+---
+
+### 📊 Organizer Dashboard
+
+#### 📈 Analytics Overview
+
+![Organizer Dashboard](./demo/organizer%201.png)  
+*Dashboard with total registrations, page visits, funnel analytics, conversion rate, active users, and more.*
+
+#### 👥 Registrants Table
+
+![Registrants Table](./demo/organizer%202.png)  
+*List of registrants for an event in a table format, with a button to download CSV.*
+
+#### 📄 Downloaded CSV
+
+![CSV File](./demo/organizer%203.png)  
+*CSV file showing registration ID, name, email, timestamp, and user ID.*
+
+#### ⚙️ Manage Events
+
+![Manage Events](./demo/organizer%204.png)  
+*Page displaying all events with options to view, edit, or delete; includes a Create Event button.*
+
+#### ✏️ Edit Event
+
+![Edit Event](./demo/organizer%205.png)  
+*Editable fields for title, description, date & time, category, and banner URL.*
+
+#### ➕ Create Event
+
+![Create Event](./demo/organizer%206.png)  
+*Form to create a new event with title, description, date & time, category, and optional banner.*
+
+
+---
+
 
 ## Contributing
 
